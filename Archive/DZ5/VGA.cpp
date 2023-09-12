@@ -1,19 +1,7 @@
 #include "VGA.h"
+#include "main.h"
 #include <iostream>
 using namespace std;
-
-void VGA::deleteNullPtr(char* pointer)
-{
-	if (pointer != nullptr)
-		delete[] pointer;
-}
-void VGA::coutVariable(char* variable)
-{
-	if (variable == nullptr)
-		cout << "empty" << endl;
-	else
-		cout << variable << endl;
-}
 
 VGA::VGA()
 {
@@ -21,7 +9,7 @@ VGA::VGA()
 	this->price = NULL;
 	this->memory = NULL;
 }
-VGA::VGA(char* userModel, double userPrice, unsigned int userMemory)
+VGA::VGA(const char* userModel, double userPrice, unsigned int userMemory)
 {
 	this->model = new char[strlen(userModel) + 1];
 	strcpy_s(this->model, strlen(userModel) + 1, userModel);
@@ -32,6 +20,14 @@ VGA::VGA(char* userModel, double userPrice, unsigned int userMemory)
 VGA::~VGA()
 {
 	delete[]this->model;
+}
+VGA::VGA(const VGA& point)
+{
+	this->model = new char[strlen(point.model) + 1];
+	strcpy_s(this->model, strlen(point.model) + 1, point.model);
+
+	this->price = point.price;
+	this->memory = point.memory;
 }
 
 void VGA::input()
@@ -54,10 +50,10 @@ void VGA::input()
 void VGA::print()
 {
 	cout << "Model: ";
-	coutVariable(model);
+	coutVariable(this->model);
 
-	cout << "Price: " << price << endl;
-	cout << "Memory: " << memory << endl;
+	cout << "Price: " << this->price << endl;
+	cout << "Memory: " << this->memory << endl;
 }
 
 char* VGA::getModel()

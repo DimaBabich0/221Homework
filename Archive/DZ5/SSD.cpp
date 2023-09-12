@@ -1,19 +1,7 @@
 #include "SSD.h"
+#include "main.h"
 #include <iostream>
 using namespace std;
-
-void SSD::deleteNullPtr(char* pointer)
-{
-	if (pointer != nullptr)
-		delete[] pointer;
-}
-void SSD::coutVariable(char* variable)
-{
-	if (variable == nullptr)
-		cout << "empty" << endl;
-	else
-		cout << variable << endl;
-}
 
 SSD::SSD()
 {
@@ -21,7 +9,7 @@ SSD::SSD()
 	this->price = NULL;
 	this->storage = NULL;
 }
-SSD::SSD(char* userModel, double userPrice, unsigned int userStorage)
+SSD::SSD(const char* userModel, double userPrice, unsigned int userStorage)
 {
 	this->model = new char[strlen(userModel) + 1];
 	strcpy_s(this->model, strlen(userModel) + 1, userModel);
@@ -32,6 +20,14 @@ SSD::SSD(char* userModel, double userPrice, unsigned int userStorage)
 SSD::~SSD()
 {
 	delete[]this->model;
+}
+SSD::SSD(const SSD& point)
+{
+	this->model = new char[strlen(point.model) + 1];
+	strcpy_s(this->model, strlen(point.model) + 1, point.model);
+
+	this->price = point.price;
+	this->storage = point.storage;
 }
 
 void SSD::input()
@@ -54,10 +50,10 @@ void SSD::input()
 void SSD::print()
 {
 	cout << "Model: ";
-	coutVariable(model);
+	coutVariable(this->model);
 
-	cout << "Price: " << price << endl;
-	cout << "Storage: " << storage << endl;
+	cout << "Price: " << this->price << endl;
+	cout << "Storage: " << this->storage << endl;
 }
 
 char* SSD::getModel()

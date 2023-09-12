@@ -1,16 +1,15 @@
 #pragma once
 class VGA
 {
+private:
 	char* model;
 	double price;
 	unsigned int memory;
-
-	void deleteNullPtr(char*);
-	void coutVariable(char*);
 public:
 	VGA();
-	VGA(char*, double, unsigned int);
+	VGA(const char*, double, unsigned int);
 	~VGA();
+	VGA(const VGA&);
 
 	void input();
 	void print();

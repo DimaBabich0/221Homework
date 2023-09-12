@@ -1,19 +1,7 @@
 #include "RAM.h"
+#include "main.h"
 #include <iostream>
 using namespace std;
-
-void RAM::deleteNullPtr(char* pointer)
-{
-	if (pointer != nullptr)
-		delete[] pointer;
-}
-void RAM::coutVariable(char* variable)
-{
-	if (variable == nullptr)
-		cout << "empty" << endl;
-	else
-		cout << variable << endl;
-}
 
 RAM::RAM()
 {
@@ -21,7 +9,7 @@ RAM::RAM()
 	this->price = NULL;
 	this->storage = NULL;
 }
-RAM::RAM(char* userModel, double userPrice, unsigned int userStorage)
+RAM::RAM(const char* userModel, double userPrice, unsigned int userStorage)
 {
 	this->model = new char[strlen(userModel) + 1];
 	strcpy_s(this->model, strlen(userModel) + 1, userModel);
@@ -32,6 +20,14 @@ RAM::RAM(char* userModel, double userPrice, unsigned int userStorage)
 RAM::~RAM()
 {
 	delete[]this->model;
+}
+RAM::RAM(const RAM& point)
+{
+	this->model = new char[strlen(point.model) + 1];
+	strcpy_s(this->model, strlen(point.model) + 1, point.model);
+
+	this->price = point.price;
+	this->storage = point.storage;
 }
 
 void RAM::input()
@@ -54,10 +50,10 @@ void RAM::input()
 void RAM::print()
 {
 	cout << "Model: ";
-	coutVariable(model);
+	coutVariable(this->model);
 
-	cout << "Price: " << price << endl;
-	cout << "Storage: " << storage << endl;
+	cout << "Price: " << this->price << endl;
+	cout << "Storage: " << this->storage << endl;
 }
 
 char* RAM::getModel()

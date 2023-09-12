@@ -1,16 +1,15 @@
 #pragma once
 class CPU
 {
+private:
 	char* model;
 	double price;
 	double power;
-
-	void deleteNullPtr(char*);
-	void coutVariable(char*);
 public:
 	CPU();
-	CPU(char*, double, double);
+	CPU(const char*, double, double);
 	~CPU();
+	CPU(const CPU&);
 
 	void input();
 	void print();

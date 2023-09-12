@@ -1,16 +1,15 @@
 #pragma once
 class RAM
 {
+private:
 	char* model;
 	double price;
 	unsigned int storage;
-
-	void deleteNullPtr(char*);
-	void coutVariable(char*);
 public:
 	RAM();
-	RAM(char*, double, unsigned int);
+	RAM(const char*, double, unsigned int);
 	~RAM();
+	RAM(const RAM&);
 
 	void input();
 	void print();

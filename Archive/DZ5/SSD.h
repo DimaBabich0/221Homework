@@ -1,16 +1,15 @@
 #pragma once
 class SSD
 {
+private:
 	char* model;
 	double price;
 	unsigned int storage;
-
-	void deleteNullPtr(char*);
-	void coutVariable(char*);
 public:
 	SSD();
-	SSD(char*, double, unsigned int);
+	SSD(const char*, double, unsigned int);
 	~SSD();
+	SSD(const SSD&);
 
 	void input();
 	void print();

@@ -1,20 +1,7 @@
 #include "CPU.h"
+#include "main.h"
 #include <iostream>
 using namespace std;
-
-void CPU::deleteNullPtr(char* pointer)
-{
-	if (pointer != nullptr)
-		delete[] pointer;
-}
-void CPU::coutVariable(char* variable)
-{
-	if (variable == nullptr)
-		cout << "empty" << endl;
-	else
-		cout << variable << endl;
-}
-
 
 CPU::CPU()
 {
@@ -22,7 +9,7 @@ CPU::CPU()
 	this->price = NULL;
 	this->power = NULL;
 }
-CPU::CPU(char* userModel, double userPrice, double userPower)
+CPU::CPU(const char* userModel, double userPrice, double userPower)
 {
 	this->model = new char[strlen(userModel) + 1];
 	strcpy_s(this->model, strlen(userModel) + 1, userModel);
@@ -33,6 +20,14 @@ CPU::CPU(char* userModel, double userPrice, double userPower)
 CPU::~CPU()
 {
 	delete[]this->model;
+}
+CPU::CPU(const CPU& point)
+{
+	this->model = new char[strlen(point.model) + 1];
+	strcpy_s(this->model, strlen(point.model) + 1, point.model);
+
+	this->price = point.price;
+	this->power = point.power;
 }
 
 void CPU::input()
@@ -55,10 +50,10 @@ void CPU::input()
 void CPU::print()
 {
 	cout << "Model: ";
-	coutVariable(model);
+	coutVariable(this->model);
 
-	cout << "Price: " << price << endl;
-	cout << "Power: " << power << endl;
+	cout << "Price: " << this->price << endl;
+	cout << "Power: " << this->power << endl;
 }
 
 char* CPU::getModel()
