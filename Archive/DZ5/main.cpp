@@ -19,7 +19,6 @@ int main()
 	RAM ram("Kingston Fury DDR4-3200", 3099, 32000);
 	Laptop Asus("ASUS TUF Gaming F15", 32499, "Grey", cpu, ssd, vga, ram);
 	Asus.print();
-
 	clearConsole();
 
 	//Laptop number 2 (using class methods)
@@ -29,6 +28,11 @@ int main()
 	point.input();
 	clearConsole();
 	point.print();
+	clearConsole();
+
+	//Laptop number 3 (using copy constuctor)
+	Laptop copyPoint = Asus;
+	copyPoint.print();
 	clearConsole();
 
 	//Print static number

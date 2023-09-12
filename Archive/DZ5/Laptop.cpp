@@ -36,7 +36,7 @@ Laptop::~Laptop()
 	delete[]this->model;
 	delete[]this->color;
 }
-Laptop::Laptop(const Laptop& point)
+Laptop::Laptop(const Laptop& point):cpu(point.cpu), ssd(point.ssd), vga(point.vga), ram(point.ram)
 {
 	this->model = new char[strlen(point.model) + 1];
 	strcpy_s(this->model, strlen(point.model) + 1, point.model);
@@ -46,11 +46,7 @@ Laptop::Laptop(const Laptop& point)
 
 	this->color = new char[strlen(point.color) + 1];
 	strcpy_s(this->color, strlen(point.color) + 1, point.color);
-
-	this->cpu = point.cpu;
-	this->ssd = point.ssd;
-	this->vga = point.vga;
-	this->ram = point.ram;
+	plusStatic();
 }
 
 void Laptop::input()
