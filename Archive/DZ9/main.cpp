@@ -6,33 +6,23 @@ unsigned int MyString::s_count = 0;
 
 int main()
 {
-	MyString point1("Hello ");
+	MyString point1("hello");
 	MyString point2("world");
+
+	cout << "\tExample of move constuctor: " << endl;
 	cout << "First string: ";
 	point1.Print();
 	cout << "Second string: ";
 	point2.Print();
 
-	cout << "\nConnect second string to first: ";
-	point1.MyStrCat(point2);
+	MyString temp = move(point1);
+	point1 = move(point2);
+	point2 = move(temp);
+
+	cout << "\nFirst string: ";
 	point1.Print();
-
-	MyString point3;
-	cout << "\nCopy to third string first: ";
-	point3.MyStrCpy(point1);
-	point3.Print();
-
-	cout << "\nComparison of the first string with the third: " << point1.MyStrCmp(point3) << endl;
-
-	cout << "\nDelete character ('w'): ";
-	point3.MyDelChr('w');
-	point3.Print();
-
-	cout << "\nComparison of the third line with the first (after deleting the character): " << point3.MyStrCmp(point1) << endl;
-
-	cout << "\nInput user string: " << endl;
-	MyString point4;
-	point4();
+	cout << "Second string: ";
+	point2.Print();
 
 	cout << "\nStatic count: " << MyString::getStatic();
 }

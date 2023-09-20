@@ -2,11 +2,6 @@
 #include <iostream>
 using namespace std;
 
-void MyString::deleteNullPtr(char* pointer)
-{
-	delete[] pointer;
-	pointer = nullptr;
-}
 void MyString::coutVariable(char* variable)
 {
 	if (variable == nullptr)
@@ -46,6 +41,38 @@ MyString::~MyString()
 	delete[] str;
 }
 
+MyString& MyString::operator= (const MyString& point)
+{
+	if (this != &point)
+	{
+		delete[] str;
+		length = point.length;
+		str = new char[length];
+		for (int i = 0; i < length; i++)
+			str[i] = point.str[i];
+	}
+	return *this;
+}
+MyString::MyString(MyString&& point)
+{
+	length = point.length;
+	point.length = NULL;
+	str = point.str;
+	point.str = nullptr;
+}
+MyString& MyString::operator= (MyString&& point)
+{
+	if (this != &point)
+	{
+		delete[] str;
+		length = point.length;
+		point.length = NULL;
+		str = point.str;
+		point.str = nullptr;
+	}
+	return *this;
+}
+
 void MyString::Input()
 {
 	char buff[90];
@@ -60,7 +87,7 @@ void MyString::Print()
 
 void MyString::MyStrCpy(MyString& point)
 {
-	deleteNullPtr(str);
+	delete[] str;
 	length = point.length;
 	str = new char[length];
 	for (int i = 0; i < length; i++)
@@ -68,7 +95,7 @@ void MyString::MyStrCpy(MyString& point)
 }
 void MyString::MyStrCpy(const char* userStr)
 {
-	deleteNullPtr(str);
+	delete[] str;
 	length = MyStrLen(userStr) + 1;
 	str = new char[length];
 	for (int i = 0; i < length; i++)
@@ -91,7 +118,7 @@ bool MyString::MyStrStr(const char* subStr)
 		{
 			indexSubStr = 0;
 			i--;
-		}	
+		}
 		else
 			indexSubStr = 0;
 		if (indexSubStr == subStrLength)
@@ -122,14 +149,14 @@ void MyString::MyStrCat(MyString& point)
 {
 	int newLength = length + point.length + 1;
 	char* newStr = new char[newLength];
-	
+
 	int index = 0;
 	for (int i = 0; i < length - 1; i++)
 		newStr[index++] = str[i];
 	for (int i = 0; i < point.length; i++)
 		newStr[index++] = point.str[i];
 
-	deleteNullPtr(str);
+	delete[] str;
 	str = newStr;
 	length = newLength;
 }
@@ -152,7 +179,7 @@ void MyString::MyDelChr(char ch)
 
 	if (isFind)
 	{
-		deleteNullPtr(str);
+		delete[] str;
 		str = newStr;
 		length = newLength;
 	}
@@ -161,7 +188,7 @@ int MyString::MyStrCmp(MyString& point)
 {
 	if (str == nullptr)
 		return -1;
-	else if(point.str == nullptr)
+	else if (point.str == nullptr)
 		return 1;
 
 	int index = 0;
@@ -182,8 +209,6 @@ int MyString::MyStrCmp(MyString& point)
 		return 1;
 	else if (length == point.length)
 		return 0;
-
-	return 9;
 }
 
 int MyString::getStatic()
