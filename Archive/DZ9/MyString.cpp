@@ -1,15 +1,5 @@
 #include "MyString.h"
-#include <iostream>
-using namespace std;
-
-void MyString::coutVariable(char* variable)
-{
-	if (variable == nullptr)
-		cout << "empty" << endl;
-	else
-		cout << variable << endl;
-}
-void MyString::plusStatic()
+void MyString::PlusStatic()
 {
 	MyString::s_count++;
 }
@@ -18,15 +8,15 @@ MyString::MyString()
 {
 	str = nullptr;
 	length = NULL;
-	plusStatic();
+	PlusStatic();
 }
-MyString::MyString(const char* userStr)//parametrs
+MyString::MyString(const char* userStr)
 {
 	length = MyStrLen(userStr) + 1;
 	str = new char[length];
 	for (int i = 0; i < length; i++)
 		str[i] = userStr[i];
-	plusStatic();
+	PlusStatic();
 }
 MyString::MyString(const MyString& point)
 {
@@ -34,43 +24,38 @@ MyString::MyString(const MyString& point)
 	str = new char[length + 1];
 	for (int i = 0; i < length; i++)
 		str[i] = point.str[i];
-	plusStatic();
+	PlusStatic();
 }
 MyString::~MyString()
 {
 	delete[] str;
 }
-
-MyString& MyString::operator= (const MyString& point)
+MyString& MyString::operator=(const MyString& point)
 {
 	if (this != &point)
 	{
 		delete[] str;
+
 		length = point.length;
 		str = new char[length];
-		for (int i = 0; i < length; i++)
+
+		for (int i = 0; i < length; ++i)
 			str[i] = point.str[i];
 	}
+
 	return *this;
 }
-MyString::MyString(MyString&& point)
+MyString::MyString(initializer_list<char> point)
 {
-	length = point.length;
-	point.length = NULL;
-	str = point.str;
-	point.str = nullptr;
-}
-MyString& MyString::operator= (MyString&& point)
-{
-	if (this != &point)
+	length = point.size() + 1;
+	str = new char[length];
+	for (auto i = point.begin(); i != point.end(); i++)
 	{
-		delete[] str;
-		length = point.length;
-		point.length = NULL;
-		str = point.str;
-		point.str = nullptr;
+		*str = *i;
+		str++;
 	}
-	return *this;
+	*str = '\0';
+	str -= length - 1;
 }
 
 void MyString::Input()
@@ -82,7 +67,10 @@ void MyString::Input()
 }
 void MyString::Print()
 {
-	coutVariable(str);
+	if (str == nullptr)
+		cout << "empty" << endl;
+	else
+		cout << str << endl;
 }
 
 void MyString::MyStrCpy(MyString& point)
@@ -211,13 +199,34 @@ int MyString::MyStrCmp(MyString& point)
 		return 0;
 }
 
-int MyString::getStatic()
+int MyString::GetStatic()
 {
 	return MyString::s_count;
 }
-void MyString::setStatic(int num)
+void MyString::SetStatic(int num)
 {
 	MyString::s_count = num;
+}
+
+char* MyString::GetStr() const
+{
+	return str;
+}
+int MyString::GetLength() const
+{
+	return length;
+}
+void MyString::SetStr(char* userStr)
+{
+	delete[] str;
+	str = userStr;
+}
+void MyString::SetLength(int userLength)
+{
+	if (userLength >= 0)
+		length = userLength;
+	else
+		length = NULL;
 }
 
 char& MyString::operator[](const unsigned int index)
@@ -230,4 +239,48 @@ void MyString::operator() ()
 {
 	this->Input();
 	this->Print();
+}
+
+MyString operator+(MyString point1, const char point2)
+{
+	int newLength = point1.GetLength() + 1;
+	char* newStr = new char[newLength];
+	for (int i = 0; i < point1.GetLength() - 1; i++)
+	{
+		newStr[i] = point1.GetStr()[i];
+	}
+	newStr[newLength - 2] = point2;
+	newStr[newLength - 1] = '\0';
+
+	MyString tempStr(newStr);
+	return tempStr;
+}
+MyString operator+(const char point1, MyString point2)
+{
+	int newLength = point2.GetLength() + 1;
+	char* newStr = new char[newLength];
+	for (int i = 0; i < point2.GetLength() - 1; i++)
+	{
+		newStr[i] = point2.GetStr()[i];
+	}
+	newStr[newLength - 2] = point1;
+	newStr[newLength - 1] = '\0';
+
+	MyString tempStr(newStr);
+	return tempStr;
+}
+
+ostream& operator<<(ostream& os, const MyString& point)
+{
+	os << "String: " << point.GetStr() << endl;
+	os << "Length: " << point.GetLength() << endl;
+	return os;
+}
+istream& operator>>(istream& is, MyString& obj)
+{
+	char buff[90];
+	cout << "Enter string: ";
+	cin.getline(buff, sizeof(buff));
+	obj.MyStrCpy(buff);
+	return is;
 }

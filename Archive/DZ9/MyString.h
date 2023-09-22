@@ -1,23 +1,22 @@
-﻿#pragma once
+#pragma once
+#include <iostream>
+using namespace std;
+
 class MyString
 {
 private:
 	char* str;
 	int length;
 
-	void coutVariable(char* variable);
-	static void plusStatic();
-
 	static unsigned int s_count;
+	static void PlusStatic();
 public:
 	MyString();
 	MyString(const char* userStr);
 	MyString(const MyString& point);
 	~MyString();
-
-	MyString& operator= (const MyString& point);
-	MyString(MyString&& point);
-	MyString& operator= (MyString&& point);
+	MyString& operator=(const MyString& point);
+	MyString(initializer_list<char> point);
 
 	void Input();
 	void Print();
@@ -31,9 +30,21 @@ public:
 	void MyDelChr(char ch);
 	int MyStrCmp(MyString& point);
 
-	static int getStatic();
-	static void setStatic(int num);
+	static int GetStatic();
+	static void SetStatic(int num);
+
+	char* GetStr() const;
+	int GetLength() const;
+	void SetStr(char* userStr);
+	void SetLength(int userLength);
 
 	char& operator[](const unsigned int index);
 	void operator() ();
 };
+
+MyString operator+(MyString point1, const char point2);
+MyString operator+(const char point1, MyString point2);
+
+
+ostream& operator<<(ostream& os, const MyString& point);
+istream& operator>>(istream& is, MyString& obj);
