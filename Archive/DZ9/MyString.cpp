@@ -21,10 +21,9 @@ MyString::MyString(const char* userStr)
 MyString::MyString(const MyString& point)
 {
 	length = point.length;
-	str = new char[length + 1];
+	str = new char[length];
 	for (int i = 0; i < length; i++)
 		str[i] = point.str[i];
-	PlusStatic();
 }
 MyString::~MyString()
 {
@@ -229,6 +228,38 @@ void MyString::SetLength(int userLength)
 		length = NULL;
 }
 
+MyString& MyString::operator++()
+{
+	length++;
+	char* newStr = new char[length];
+	newStr[0] = ' ';
+	for (int i = 0; i < length; i++)
+	{
+		newStr[i + 1] = str[i];
+	}
+
+	delete[] str;
+	str = newStr;
+
+	return *this;
+}
+MyString& MyString::operator++(int)
+{
+	length++;
+	char* newStr = new char[length];
+	for (int i = 0; i < length - 2; i++)
+	{
+		newStr[i] = str[i];
+	}
+	newStr[length - 2] = ' ';
+	newStr[length - 1] = '\0';
+
+	delete[] str;
+	str = newStr;
+
+	return *this;
+}
+
 char& MyString::operator[](const unsigned int index)
 {
 	if (index >= 0 && index < length)
@@ -243,11 +274,15 @@ void MyString::operator() ()
 
 MyString operator+(MyString point1, const char point2)
 {
-	int newLength = point1.GetLength() + 1;
+	int pointLength = point1.GetLength();
+	char* pointStr = point1.GetStr();
+
+	int newLength = pointLength + 1;
 	char* newStr = new char[newLength];
-	for (int i = 0; i < point1.GetLength() - 1; i++)
+
+	for (int i = 0; i < pointLength - 1; i++)
 	{
-		newStr[i] = point1.GetStr()[i];
+		newStr[i] = pointStr[i];
 	}
 	newStr[newLength - 2] = point2;
 	newStr[newLength - 1] = '\0';
@@ -257,13 +292,57 @@ MyString operator+(MyString point1, const char point2)
 }
 MyString operator+(const char point1, MyString point2)
 {
-	int newLength = point2.GetLength() + 1;
+	int pointLength = point2.GetLength();
+	char* pointStr = point2.GetStr();
+
+	int newLength = pointLength + 1;
 	char* newStr = new char[newLength];
-	for (int i = 0; i < point2.GetLength() - 1; i++)
+	for (int i = 0; i < pointLength - 1; i++)
 	{
-		newStr[i] = point2.GetStr()[i];
+		newStr[i] = pointStr[i];
 	}
 	newStr[newLength - 2] = point1;
+	newStr[newLength - 1] = '\0';
+
+	MyString tempStr(newStr);
+	return tempStr;
+}
+
+MyString operator+(MyString point, int num)
+{
+	int pointLength = point.GetLength();
+	char* pointStr = point.GetStr();
+
+	int newLength = pointLength + num;
+	char* newStr = new char[newLength];
+
+	for (int i = 0; i < newLength; i++)
+	{
+		if (i < pointLength - 1)
+			newStr[i] = pointStr[i];
+		else
+			newStr[i] = ' ';
+	}
+	newStr[newLength - 1] = '\0';
+
+	MyString tempStr(newStr);
+	return tempStr;
+}
+MyString operator+(int num, MyString point)
+{
+	int pointLength = point.GetLength();
+	char* pointStr = point.GetStr();
+
+	int newLength = pointLength + num;
+	char* newStr = new char[newLength];
+
+	for (int i = 0; i < newLength; i++)
+	{
+		if (i < pointLength - 1)
+			newStr[i] = pointStr[i];
+		else
+			newStr[i] = ' ';
+	}
 	newStr[newLength - 1] = '\0';
 
 	MyString tempStr(newStr);

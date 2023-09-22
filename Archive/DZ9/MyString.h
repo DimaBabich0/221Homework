@@ -38,6 +38,9 @@ public:
 	void SetStr(char* userStr);
 	void SetLength(int userLength);
 
+	MyString& operator++();
+	MyString& operator++(int);
+
 	char& operator[](const unsigned int index);
 	void operator() ();
 };
@@ -45,6 +48,8 @@ public:
 MyString operator+(MyString point1, const char point2);
 MyString operator+(const char point1, MyString point2);
 
+MyString operator+(MyString point, int num);
+MyString operator+(int num, MyString point);
 
 ostream& operator<<(ostream& os, const MyString& point);
 istream& operator>>(istream& is, MyString& obj);
