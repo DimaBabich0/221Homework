@@ -104,6 +104,7 @@ void Bankomat::WithdrawalMoney()
 	if (userWithdrawal != 0)
 	{
 		cout << "The ATM doesn't have the right banknotes. Try the different amount." << endl;
+		delete[] tempArr;
 		return;
 	}
 
