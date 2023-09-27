@@ -58,40 +58,40 @@ void List::Add(char userData)
 }
 void List::AddPosition(char userData, int userPos)
 {
-	if (userPos < 0 || userPos > count)//проверяем допустимость позиции
+	if (userPos < 0 || userPos > count)
 	{
 		cout << "Unacceptable position" << endl;
 		return;
 	}
 	else
 	{
-		if (userPos == count)//если элемент последний, то просто вызываем нашу функцию Add
+		if (userPos == count)
 			Add(userData);
-		else if (userPos == 1)//если элемент первый, то меняем у head указатель на новый элемент
+		else if (userPos == 1)
 		{
 			Element* newElem = new Element;
 			newElem->data = userData;
 			newElem->next = head;
 			head = newElem;
-			count++;//увеличиваем счетчик
+			count++;
 		}
-		else//если элемент на другой позиции, то тогда ищем по индексу
+		else
 		{
-			Element* newElem = new Element;//создаем новый элемент
+			Element* newElem = new Element;
 			newElem->data = userData;
 			newElem->next = NULL;
 
-			int tempCount = 1;//счетчик для индекса
-			Element* temp = head;//временный элемент для цикла
+			int tempCount = 1;
+			Element* temp = head;
 
-			while (tempCount != userPos - 1)//цикл пока не дойдем до элемента перед позицией пользователя
+			while (tempCount != userPos - 1)
 			{
 				temp = temp->next;
 				tempCount++;
 			}
-			newElem->next = temp->next;//меняем указатели у элементов
+			newElem->next = temp->next;
 			temp->next = newElem;
-			count++;//увеличиваем счетчик
+			count++;
 		}
 	}
 }
@@ -104,28 +104,28 @@ void List::Del()
 }
 void List::DelPosition(int userPos)
 {
-	if (userPos < 0 || userPos > count)//проверяем допустимость позиции
+	if (userPos < 0 || userPos > count)
 	{
 		cout << "Unacceptable position" << endl;
 		return;
 	}
 	else
 	{
-		if (userPos == 1)//если элемент первый, то просто вызываем нашу функцию Del()
+		if (userPos == 1)
 			Del();
-		else//иначе
+		else
 		{
-			Element* temp = head;//берем первый элемент за основу
-			int tempCount = 1;//счетчик для индекса
-			while (tempCount != userPos - 1)//цикл пока не дойдем до элемента перед позицией пользователя
+			Element* temp = head;
+			int tempCount = 1;
+			while (tempCount != userPos - 1)
 			{
 				temp = temp->next;
 				tempCount++;
 			}
-			Element* del = temp->next;//удаляем элемент
+			Element* del = temp->next;
 			temp->next = del->next;
 			delete del;
-			count--;//уменьшаем счетчик в объекте
+			count--;
 		}
 	}
 }
@@ -147,14 +147,14 @@ void List::Print()
 int List::SearchPosition(char userData)
 {
 	Element* temp = head;
-	for (int i = 1; i != count; i++)//цикл для прохода по листу
+	for (int i = 1; i != count; i++)
 	{
-		if (temp->data == userData)//если символы совпадают
-			return i;//возвращаем индекс
-		else//иначе
-			temp = temp->next;//переходим к следующему указателю
+		if (temp->data == userData)
+			return i;
+		else
+			temp = temp->next;
 	}
-	return NULL;//если цикл пройден и не было найдено индекса, то возвращаем null
+	return NULL;
 }
 
 void main()

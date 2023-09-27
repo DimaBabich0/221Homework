@@ -76,7 +76,7 @@ void Bankomat::WithdrawalMoney()
 	cout << "How much do you want to withdraw: ";
 	cin >> userWithdrawal;
 
-	if (userWithdrawal <= minWithdrawal || userWithdrawal >= maxWithdrawal)
+	if (userWithdrawal < minWithdrawal || userWithdrawal > maxWithdrawal)
 	{
 		cout << "You entered an invalid amount. The operation was canceled." << endl << endl;
 		return;
