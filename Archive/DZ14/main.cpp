@@ -13,7 +13,7 @@ public:
 	void Push(char c);
 	char Pop();
 	char GetLastElem();
-	void Check—orrectness();
+	void CheckCorrectness();
 	void Clear();
 	bool IsEmpty();
 	bool IsFull();
@@ -64,7 +64,7 @@ char Stack::GetLastElem()
 	else
 		return 0;
 }
-void Stack::Check—orrectness()
+void Stack::CheckCorrectness()
 {
 	bool isCorrect = true;
 	bool isFind = false;
@@ -121,5 +121,5 @@ void main()
 			break;
 	}
 
-	ST.Check—orrectness();
+	ST.CheckCorrectness();
 }
